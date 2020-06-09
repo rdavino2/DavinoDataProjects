@@ -1,5 +1,5 @@
 ---
-title: "NBA Data Project for DSB Bootcamp 2020"
+title: "NBA Data Project for DSB 2020"
 author: "Rocco Davino"
 date: "Last updated on `r Sys.Date()`"
 output:
