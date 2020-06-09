@@ -62,11 +62,11 @@ Based on our boxplot, the answer appears to be no. How about 2P, the average num
 nbadata %>%
   ggplot(aes(x = `2P`, y = Salary_dbl)) +
     geom_point(aes(color = Position)) + 
-    ylab("Salary (millions USD)") + xlab("2P (avg. # shots made from inside 3-point/game)")
+    ylab("Salary (millions USD)") + 
+    xlab("2P (avg. # shots made from inside 3-point/game)")
 # Model 2 by position 
 nbadata0 <- nbadata %>%
   group_by(Position) %>%
-  #filter(Position %in% c("Forward","Guard")) %>%
   nest()
 # Functions for regression frame
 fit_model <- function (df) lm(Salary_dbl ~ `2P`, data = df)
@@ -84,7 +84,8 @@ unnest(nbadata0, aug) %>%
   ggplot() + 
     geom_line(aes(x = `X2P`, y = .fitted, color = Position)) +
     geom_point(aes(x = `X2P`, y = Salary_dbl, color = Position)) + 
-    xlab("2P (avg. # shots made from inside 3-point/game)") + ylab("Salary (millions USD)")
+    xlab("2P (avg. # shots made from inside 3-point/game)") + 
+    ylab("Salary (millions USD)")
 ```
 
 For each position, the R^2 value is over 0.65 with positive slope. Thus it seems that 2P alone goes pretty far in impacting salary. Let us see if the same holds true for 2P%, the average number of shots made inside the 3-point line divided by the average number of total shots taken inside the 3-point line.
@@ -94,11 +95,11 @@ For each position, the R^2 value is over 0.65 with positive slope. Thus it seems
 nbadata %>%
   ggplot(aes(x = `2P%`, y = Salary_dbl)) +
     geom_point(aes(color = Position)) +
-    ylab("Salary (millions USD)") + xlab("2P% (avg. # made inside 3-point/avg. # total inside 3-point)")
+    ylab("Salary (millions USD)") + 
+    xlab("2P% (avg. # made inside 3-point/avg. # total inside 3-point)")
 # Model 2 % by position 
 nbadata3 <- nbadata %>%
   group_by(Position) %>%
-  #filter(Position %in% c("Forward","Guard")) %>%
   nest()
 # Functions for regression frame
 fit_model <- function (df) lm(Salary_dbl ~ `2P%`, data = df)
@@ -111,13 +112,13 @@ nbadata3 <- nbadata3 %>%
   mutate(aug = map(data, fit_model_aug))
 nbadata3 <- nbadata3 %>%
   mutate(r.sqradj = map_dbl(model, get_rsq))    # Get R^2
-#nbadata3$aug[[1]]
 # Plot the regression by position
 unnest(nbadata3, aug) %>%
   ggplot() + 
     geom_line(aes(x = `X2P.`, y = .fitted, color = Position)) + 
     geom_point(aes(x = `X2P.`, y = Salary_dbl, color = Position)) +
-    ylab("Salary (millions USD)") + xlab("2P% (avg. # made inside 3-point/avg. # total made inside 3-point)")
+    ylab("Salary (millions USD)") + 
+    xlab("2P% (avg. # made inside 3-point/avg. # total made inside 3-point)")
 ```
 
 The R^2 values are all less than 0.2, and the lines do not fit the data nearly as well. Thus the average number of shots made per game appears to have a larger impact than the percentage. Three pointers have become more prominent recently; did they have any impact on salary circa 2012?
@@ -127,7 +128,8 @@ The R^2 values are all less than 0.2, and the lines do not fit the data nearly a
 nbadata %>%
   ggplot(aes(x = `3P`, y = Salary_dbl)) +
     geom_point(aes(color = Position)) +
-    ylab("Salary (millions USD)") + xlab("3P (avg. # shots made from outside 3-point/game)")
+    ylab("Salary (millions USD)") + 
+    xlab("3P (avg. # shots made from outside 3-point/game)")
 # Model 3 by position 
 nbadata1 <- nbadata %>%
   group_by(Position) %>%
@@ -149,7 +151,8 @@ unnest(nbadata1, aug) %>%
   ggplot() + 
     geom_line(aes(x = `X3P`, y = .fitted, color = Position)) + 
     geom_point(aes(x = `X3P`, y = Salary_dbl, color = Position)) +
-    ylab("Salary (millions USD)") + xlab("3P (avg. # shots made from outside 3-point/game)")
+    ylab("Salary (millions USD)") + 
+    xlab("3P (avg. # shots made from outside 3-point/game)")
 ```
 
 As we can visually confirm, these shots already appear to be less important for salary. For centers, they do not matter at all. Even for forwards and guards, the R^2 values are less than 0.09 and the slopes are small. Moreover, the p-value for forwards is greater than 0.05. However, it does look like 3-point shots have some impact on the salary of guards, moreso than forwards, as expected. Three pointers do not affect salary very much for this data set. It would be interesting to study more recent data and see if this has changed. Let us look at 3-point shots by team and see if certain terms value these shots more than others.
@@ -160,7 +163,8 @@ nbadata %>%
   group_by(Team) %>%
   ggplot(aes(x = `3P`, y = Salary_dbl)) +
     geom_point(aes(color = Position)) +
-    ylab("Salary (millions USD)") + xlab("3P (avg. # shots made from outside 3-point/game)") +
+    ylab("Salary (millions USD)") + 
+    xlab("3P (avg. # shots made from outside 3-point/game)") +
     facet_wrap(~Team)
 # Model 3 by team 
 nbadata2 <- nbadata %>%
@@ -182,7 +186,8 @@ unnest(nbadata2, aug) %>%
   ggplot() + 
     geom_line(aes(x = `X3P`, y = .fitted)) + 
     geom_point(aes(x = `X3P`, y = Salary_dbl)) +
-    ylab("Salary (millions USD)") + xlab("3P (avg. # shots made from outside 3-point/game)") +
+    ylab("Salary (millions USD)") + 
+    xlab("3P (avg. # shots made from outside 3-point/game)") +
     facet_wrap(~Team)
 ```
 
@@ -202,7 +207,8 @@ nba_mod1 %>%
   ggplot() + 
     geom_line(aes(x = PER, y = .fitted)) + 
     geom_point(aes(x = PER, y = Salary_dbl)) +
-    ylab("Salary (millions USD)") + xlab("PER") 
+    ylab("Salary (millions USD)") + 
+    xlab("PER") 
 # Get R^2
 nba_mod1 %>%
   glance()
@@ -226,7 +232,8 @@ nbadata <- nbadata %>%
 nbadata %>%
   ggplot() +
     geom_histogram(aes(x = `Mod2Res`), binwidth = 1) +
-    xlab("Residuals") + ylab("Count")
+    xlab("Residuals") +
+    ylab("Count")
 ```
 
 With an R^2 value of 0.96, our model does a great job estimating PER. See also the residual distribution. Thus it seems that PER is little more than a linear combination of simpler statistics. Considering the effect of FTA, the average numer of free throw attempts per game, on PER, it is possible that FTA has some effect on salary: after all, players who are fouled more often take more free throws. 
@@ -236,12 +243,14 @@ With an R^2 value of 0.96, our model does a great job estimating PER. See also t
 nbadata %>%
   ggplot() +
   geom_histogram(aes(x = FTA)) +
-  xlab("FTA (avg. # free throw attempts/game)") + ylab("Count")
+  xlab("FTA (avg. # free throw attempts/game)") + 
+  ylab("Count")
 # Scatter plot
 nbadata %>%
   ggplot(aes(x = FTA, y = Salary_dbl)) +
     geom_point() +
-    xlab("FTA (avg. # free throw attempts/game)") + ylab("Salary (millions USD)")
+    xlab("FTA (avg. # free throw attempts/game)") + 
+    ylab("Salary (millions USD)")
 # Model FTA
 nba_mod3 <- lm(Salary_dbl ~ FTA, data = nbadata)
 nba_mod3 %>% 
@@ -249,15 +258,15 @@ nba_mod3 %>%
   ggplot() + 
     geom_line(aes(x = FTA, y = .fitted)) + 
     geom_point(aes(x = FTA, y = Salary_dbl)) +
-    xlab("FTA (avg. # free throw attempts/game)") + ylab("Salary (millions USD)")
+    xlab("FTA (avg. # free throw attempts/game)") + 
+    ylab("Salary (millions USD)")
 # Get R^2
-#nba_mod3 %>%
-  #glance()
 # Good across all positions?
 nbadata %>%
   ggplot() +
     geom_density(aes(x = FTA, color = Position)) +
-    xlab("FTA (avg. # free throw attempts/game)") + ylab("Density")
+    xlab("FTA (avg. # free throw attempts/game)") + 
+    ylab("Density")
 ```
 
 With an R^2 value of 0.65, we see that FTA has a rather strong effect on salary. As the density plot above shows, this is irrespective of position. Therefore we may ask, how far do just 2P and FTA go towards explaining variability in salary?

@@ -1,11 +1,6 @@
 ---
-<<<<<<< HEAD
 title: "More information"
 author: "Rocco Davino"
-=======
-#title: "More information"
-#author: "My names, team mates names"
->>>>>>> f8f289265f8a49bb41cc247c3a4da3c1a6c36f14
 date: "Last updated on `r Sys.Date()`"
 output:
   html_document:
@@ -21,4 +16,4 @@ Comments in HTML are like this!
 
 # Some Info
 
-Currently a PhD students in Mathematics at UIUC.
+Currently a PhD student in Mathematics at UIUC.
