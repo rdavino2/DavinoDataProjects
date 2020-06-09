@@ -1,6 +1,6 @@
 ---
-title: "NBA Data Project for DSB 2020"
-author: "Rocco Davino"
+#title: "NBA Data Project for DSB 2020"
+#author: "Rocco Davino"
 date: "Last updated on `r Sys.Date()`"
 output:
   html_document:
@@ -14,7 +14,7 @@ output:
 Comments in HTML are like this! 
 -->
 
-# Some basic data analysis
+# DSB 2020 Project
 
 ```{r setup, include=FALSE}
 library(tidyverse)
